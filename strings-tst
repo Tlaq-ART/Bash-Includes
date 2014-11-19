@@ -1,0 +1,79 @@
+#!/bin/bash
+#************************************************
+# strings.sh	A simple demo of using the 
+#		Bash-Includes strings library
+#************************************************
+# adjust path to your environment
+#
+source /usr/local/include/incl.inc
+$INCLUDE $STRINGS
+
+ECHO="echo -e" 		# echo to use
+aON="\e[47m"		# turn on mark up
+aOF="\e[0m"		# turn of mark up
+
+# test string 
+tst="This is a long text string we use to test the bash strings library"
+pos=11
+length=9
+
+$ECHO "\e[2J \n  Demo of bash string functions"
+
+$ECHO "\n> substr \"text\" pos1 length : "
+substr "$tst" $pos $length 
+a=$_retVal
+$ECHO "Text\"${aON}${a}${aOF}\" is located at ${aON}pos $pos-$(($pos+$length-1))${aOF} in the string 
+
+\"${aON}$tst${aOF}\"\n\n"
+
+$ECHO "> toupper \"text\" :"
+toupper "$a"
+a=$_retVal
+$ECHO "Text\"${aON}${a}${aOF}\" in the string \"${aON}$tst${aOF}\" as ${aON}upper case${aOF}\n\n"
+
+$ECHO "> tolower \"text\" :"
+tolower "$a"
+a=$_retVal
+$ECHO "Text \"${aON}${a}${aOF}\" in the string \"${aON}$tst${aOF}\" as ${aON}lower case${aOF}\n\n"
+
+$ECHO "> strlen \"text\" :"
+strlen "$a"
+b=$_retVal
+strlen "$tst"
+c=$_retVal
+$ECHO "Text \"${aON}${a}${aOF}\" is ${aON}$b${aOF} chars  long and \n         \"${aON}$tst${aOF}\" is 
+
+${aON}$c${aOF} chars\n\n"
+
+$ECHO "> split \"text\" \"arr\" \"div\" gives the array arr[x]:"
+split "$tst" "axz" " "
+$ECHO "${aON}Fourth${aOF} word in the string \"${aON}$tst${aOF}\" \n  is \"${aON}${axz[3]}${aOF}\"\n\n"
+
+$ECHO "> match \"text\" \"seek string\" :"
+match "$tst" "$a"
+d=$_retVal
+$ECHO "Text \"${aON}${a}${aOF}\" begins at pos \"${aON}$d${aOF}\" in the string \n            
+
+\"${aON}$tst${aOF}\"\n\n"
+
+$ECHO "> sub \"text\" \"seek string\" \"new string\" :"
+sub "$tst" "s" "z"
+e=$_retVal
+$ECHO "Text \"$tst\" has got a \"${aON}s${aOF}\" replaced \n  with \"${aON}z${aOF}\" =\n  \"${aON}$e
+
+${aOF}\"\n\n"
+
+$ECHO "> gsub \"text\" \"Seek string\" \"new string\" :"
+gsub "$tst" "s" "z" 
+e=$_retVal
+$ECHO "Text \"$tst\" has now got all \"${aON}s${aOF}\" replaced \n  with \"${aON}z${aOF}\" =\n  
+
+\"${aON}$e${aOF}\"\n\n"
+
+$ECHO "> sprintf \"format\" \"arg1\" \"arg....\" :"
+sprintf "output text:  %-30s \n\n" "$tst"
+f=$_retVal
+$ECHO "Sprintf wrote text \"$tst\" as :\n \"${aON}$f${aOF}\" \n with the format = \"output text: %-30s \" 
+
+\n\n\n"
+
