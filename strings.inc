@@ -100,7 +100,7 @@ substr(){
 esubstr(){
     # split a line and return a segment - similar to nawk substr
     local _str="$1"         # string to split
-    local _len="$3"         # length of needed substring
+    local _len="$2"         # length of needed substring
     
     _retVal="${_str:($_len)}"
     return $?
