@@ -709,6 +709,33 @@ mvinsch(){
 # or altered 
 
 #********************************* 
+werase(){
+    local _win=$1
+
+    # get windows data ( filtering from _NCwinptr in stable)
+    _curwin="${_NCwinptr[$_win]}"
+
+    # access _curwin array
+    split "$_curwin" coord "$NC_Div"
+
+    # get topmost pos
+    _NCver=${coord[0]}
+
+    # get leftmost pos
+    _NChor=${coord[1]}
+
+    # get bottom pos
+    _NCrows=${coord[2]}
+
+    # get rightmost pos
+    _NCcols=${coord[3]}
+
+    box $_NCver $_NChor $_NCRows $_NCcols
+
+    return ${?}
+}
+
+#********************************* 
 addstr(){
     [[ "_${1}" != "_" ]] &&
       _NCchgBuf="$_NCchgBuf${1}"
