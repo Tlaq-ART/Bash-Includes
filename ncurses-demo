@@ -1,0 +1,129 @@
+#!/bin/bash
+#**********************************
+# ncurses.sh : Simple demo of ncurses 
+#	       script in Bash-Include
+#
+#**********************************
+# get basics and booleans
+# adjust to your paths
+[[ "$_inclinc" = "" ]] && source /c/usr/local/include/incl.inc
+
+#**********************************
+# load includes if not yet loaded
+#
+$CLS
+echo "  loading ......"
+$INCLUDE $ENV
+$INCLUDE $NCURSES
+
+#**********************************
+# define som specials
+#
+SAVE="\e[s"
+RESTORE="\e[u"
+
+
+
+#**********************************
+# init a screen with ncurses
+#
+initscr 35 80
+newwin 0 0 34 79 
+win=$_retVal
+
+#**********************************
+# make a pattern on that screen
+#
+mvaddstr 3 4 "################################################################"
+mvaddstr 6 4 "################################################################"
+mvaddstr 9 4 "################################################################"
+mvaddstr 12 4 "################################################################"
+mvaddstr 15 4 "################################################################"
+mvaddstr 18 4 "################################################################"
+mvaddstr 21 4 "################################################################"
+mvaddstr 24 4 "################################################################"
+mvaddstr 27 4 "################################################################"
+mvaddstr 30 4 "################################################################"
+
+#**********************************
+# "paint" the screen
+refresh
+
+getchar 2
+
+#**********************************
+# Open a new screen and populate it
+#
+newwin 5 10 15 14 
+win=$_retVal
+box $win 0 0
+mvaddstr 4 2 "Lite txt"
+
+strlen "`date +\"%H:%M\"`"
+slen=$_retVal
+slen=$((14-$slen-1))
+mvaddstr 1 $slen "`clock`"
+
+mvaddstr 7 2 "======="
+mvaddstr 6 2 "$SAVE"
+
+
+#**********************************
+# repaint the screens
+#
+refresh
+
+#**********************************
+# get a response and write it, 
+# until line 12 is reached
+i=8
+resp="a"
+while [[ "$resp" != "x" ]] && [[ "$i" -le "12" ]] 
+do
+    mvcur 6 2
+    resp=$(getstr)
+    mvaddstr 6 2 "          "
+    mvaddstr $i 1 " $resp"
+    mvaddstr 6 2 "$RESTORE"
+    # repaint screens
+    refresh
+    let i="$i + 1"
+done
+
+# flush residual chars above 10 in wgetchars
+flushbuf
+
+#**********************************
+# remove the second window
+# 
+delwin $win  
+win=$_retVal
+
+#**********************************
+# repaint and wait for ready 
+# 
+refresh
+getchars 2
+
+#**********************************
+# wipe the bottom half of the screen
+# with a ANSIC code command, then 
+# get the buffer back
+# 
+tput cup 15 1
+echo -en "\e[J"
+getchars 2
+
+touchwin $win
+refresh
+getchars 2
+
+#**********************************
+# The end message in its own window
+# 
+errTxt "That's all, folk's: \c"
+
+#**********************************
+# close ncurses
+#
+endwin
