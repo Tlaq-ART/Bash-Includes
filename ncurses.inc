@@ -25,7 +25,7 @@
 #                 do not support the here used individual 
 #                 windows.
 #                   
-# Legal       : This include file is part of Shell 
+# Legal       : This include file is part of Bash 
 # boilerplate   Includes Library. 
 #               They are relesed under Creative Common
 #               with notice of origin version. 
