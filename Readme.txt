@@ -22,6 +22,53 @@ scripting solution in different functions. After deciding to be
 consistent, I rewrote the old include files to give me a C-/awk-like
 function set, easy to remember and use.  
 
+Note that since bash do not allow function data returns, like c-functions
+this library had to resort to a global return variable "_retVal". 
+Hopefully this name will not collied with user name standards. It is 
+also important that it is copied to a user variable directly after the 
+call ended. Otherwise use of another function will write over the data.
+
+Example:
+#*******************
+# Function
+someFunc(){
+	_retVal="Some text produced by this function"
+}
+
+nextFunc() {
+	_retVal=$(($1-$2))
+}
+
+#*******************
+# Main
+someFunc
+result=$_retVal
+nextFunc  22 8
+sum=$_retVal
+echo "Functions responded with: $result and $sum"
+
+This problem can be solved by the design: 
+#*******************
+# Functions
+someFunc(){
+	echo "Some text produced by this function"
+}
+
+nextFunc() {
+	echo $(($1-$2))
+}
+
+#*******************
+# Main
+result=$(someFunc)
+sum=$(nextFunc 22 8)
+echo "Functions responded with: $result and $sum"
+
+But, while this looks neater, it has a performance penalty of ca 20-35%,
+since the script is forking a copy, running the calls and returns. In
+some cases, using read or doing screen operations, this also can wreak
+havok, since some data gets lost in the process switch. 
+
 As is, the include libraries is developed under Mingw win32 bash, using
 Mingw Gnu tools as well as the old UnxUtils toolset. Is currently using
 a mix of these two, since a couple of UnxUtils  commands have some
