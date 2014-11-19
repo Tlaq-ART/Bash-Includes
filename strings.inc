@@ -15,7 +15,7 @@
 #               "_retVal" is used to return sub 
 #               function data
 #
-# Legal       : This include file is part of Shell 
+# Legal       : This include file is part of Bash 
 # boilerplate   Includes Library. 
 #               They are relesed under Creative Common
 #               with notice of origin version. 
