@@ -66,9 +66,7 @@ STD="$INCL/std.inc"
 STDIO="$INCL/stdio.inc"
 STRINGS="$INCL/strings.inc"
 TPUT="$INCL/tput.inc"
-CURSES="$INCL/curses.inc"
 NCURSES="$INCL/ncurses.inc"
-CGI="$INCL/cgi.inc"
 
 # a common clear, lacking in Cygwin/Mingw bash
 cls(){
